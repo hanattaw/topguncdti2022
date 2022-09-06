@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>containerization day1.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="tesa-top-gun-rally-16-%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B8%9B%E0%B8%A3%E0%B8%B0%E0%B8%8A%E0%B8%B1%E0%B8%99%E0%B8%97%E0%B8%B1%E0%B8%81%E0%B8%A9%E0%B8%B0%E0%B8%94%E0%B9%89%E0%B8%B2%E0%B8%99%E0%B8%AA%E0%B8%A1%E0%B8%AD%E0%B8%87%E0%B8%81%E0%B8%A5%E0%B8%9D%E0%B8%B1%E0%B8%87%E0%B8%95%E0%B8%B1%E0%B8%A7-%E0%B8%84%E0%B8%A3%E0%B8%B1%E0%B9%89%E0%B8%87%E0%B8%97%E0%B8%B5%E0%B9%88-16">TESA Top gun Rally #16 (การประชันทักษะด้านสมองกลฝังตัว ครั้งที่ 16)</h1>
+<h2 id="server-programming-and-configuration">Server Programming and Configuration.</h2>
+<h3 id="containterization">Containterization</h3>
+<blockquote>
+<p>Containerization involves <strong>encapsulating</strong> or <strong>packaging</strong> up software code and all its <strong>dependencies</strong> so that it can run uniformly and consistently on any infrastructure</p>
+</blockquote>
+<h2 id="%E0%B8%A7%E0%B8%B1%E0%B8%99%E0%B8%97%E0%B8%B5%E0%B9%88-1">วันที่ 1</h2>
+<h3 id="%E0%B9%80%E0%B8%A3%E0%B8%B5%E0%B8%A2%E0%B8%99%E0%B8%A3%E0%B8%B9%E0%B9%89">เรียนรู้</h3>
+<ol>
+<li>พื้นฐาน containterization</li>
+<li>เรียนรู้การใช้งาน container ด้วย docker</li>
+<li>เรียนรู้การติดตั้งและใช้งาน MQTT Broker</li>
+</ol>
+<h3 id="%E0%B8%9E%E0%B8%B7%E0%B9%89%E0%B8%99%E0%B8%90%E0%B8%B2%E0%B8%99-containerization">พื้นฐาน Containerization</h3>
+<p><strong>Idea</strong></p>
+<ul>
+<li><strong>Develop</strong> and run the application inside an isolated environment (known as a <strong>container</strong>) that matches your final <strong>deployment</strong> environment.</li>
+<li>Put your application inside a single file (known as an <strong>image</strong>) along with all its dependencies and necessary deployment configurations.</li>
+<li>And <strong>share</strong> that image through a central server (known as a <strong>registry</strong> e.g. <a href="https://hub.docker.com">Docker Hub (https://hub.docker.com)</a>) that is accessible by anyone with proper authorization.</li>
+</ul>
+<p><strong>Docker Concept</strong></p>
+<ul>
+<li>Docker is an <strong>implementation</strong>.</li>
+<li><strong>Open-source</strong> containerization platform.</li>
+<li><strong>Share</strong> containers public or private registries, and also to orchestrate containers.</li>
+</ul>
+<p><strong>Docker Architure</strong></p>
+<p>A container is an abstraction at the application layer that packages code and dependencies together. <strong>Instead of virtualizing the entire physical machine</strong>, containers virtualize the <strong>host operating system</strong> only</p>
+<p><img src="./assets/vm_container.png" alt="VM vs Container"></p>
+<ul>
+<li><strong>Images</strong> are multi-layered self-contained files that act as the template for creating containers. They are like a frozen, read-only copy of a container. Images can be exchanged through registries.</li>
+<li><strong>Containers</strong> are just images in running state. When you obtain an image from the internet and run a container using that image, you essentially create another temporary writable layer on top of the previous read-only ones</li>
+<li>An image <strong>registry</strong> is a centralized place where you can upload your images and can also download images created by others. Docker Hub is the default public registry for Docker.</li>
+</ul>
+<p><img src="./assets/docker-architure.png" alt="Docker Architure"></p>
+<h2 id="docker-desktop">Docker Desktop</h2>
+<p>Docker Desktop is an easy-to-install application for your Mac or Windows environment that enables you to build and share containerized applications and microservices.</p>
+<p>It provides a simple interface that enables you to manage your containers, applications, and images directly from your machine without having to use the CLI to perform core actions.</p>
+<p>Docker Desktop includes:</p>
+<ul>
+<li>Docker Engine</li>
+<li>Docker CLI client</li>
+<li>Docker Compose</li>
+<li>Docker Content Trust</li>
+<li>Kubernetes</li>
+<li>Credential Helper</li>
+</ul>
+<p><img src="https://docs.docker.com/desktop/images/dashboard.PNG" alt="Docker Desktop">
+<a href="https://www.docker.com/get-started/">Get Started with Docker (www.docker.com/get-started/)</a></p>
+<ul>
+<li><a href="https://docs.docker.com/desktop/install/mac-install/">Install Docker Desktop on Mac (https://docs.docker.com/desktop/install/mac-install/)</a></li>
+<li><a href="https://docs.docker.com/desktop/install/windows-install/">Install Docker Desktop on Windows (https://docs.docker.com/desktop/install/windows-install/)</a></li>
+<li><a href="https://docs.docker.com/desktop/install/linux-install/">Install Docker Desktop on Linux (https://docs.docker.com/desktop/install/linux-install/)</a></li>
+</ul>
+<h3 id="verify-docker-installation-complete">Verify Docker installation complete</h3>
+<p>After you’ve successfully installed Docker Desktop, you can check the versions of these binaries by running the following commands:</p>
+<pre class="hljs"><code><div>$ docker compose version
+Docker Compose version v2.7.0
+
+$ docker --version
+Docker version 20.10.17, build 100c701
+
+$ docker version
+Client:
+ Cloud integration: v1.0.28
+ Version:           20.10.17
+ API version:       1.41
+ Go version:        go1.17.11
+ Git commit:        100c701
+ Built:             Mon Jun  6 23:04:45 2022
+ OS/Arch:           darwin/arm64
+ Context:           default
+ Experimental:      <span class="hljs-literal">true</span>
+...
+</div></code></pre>
+<h2 id="run-container-from-share-image">Run container from share image</h2>
+<p><strong><a href="https://hub.docker.com/">Docker Hub(https://hub.docker.com/)</a></strong> is a service provided by Docker for finding and sharing container images with your team. It is the world’s largest repository of container images with an array of content sources including container community developers, open source projects and independent software vendors (ISV) building and distributing their code in containers.</p>
+<p><img src="https://docs.docker.com/docker-hub/images/index-create-repo.png" alt="Docker Hub"></p>
+<h3 id="run-docker-containter-from-docker-hub-basic">Run docker containter from docker hub (BASIC)</h3>
+<p><strong>Node-RED</strong></p>
+<p>Low-code programming for event-driven applications</p>
+<p><a href="https://nodered.org">Node-RED(https://nodered.org)</a> is a programming tool for wiring together hardware devices, APIs and online services in new and interesting ways.</p>
+<p>It provides a browser-based editor that makes it easy to wire together flows using the wide range of nodes in the palette that can be deployed to its runtime in a single-click</p>
+<p><img src="./assets/nodered.png" alt="Nodered"></p>
+<p>Documentation on share environment e.g. nodered is the key to start.</p>
+<p><img src="./assets/nodered-document-docker.png" alt="Nodered document docker hub"></p>
+<p><strong>Run docker Node-RED</strong></p>
+<p>To run Node-RED in Docker in its simplest form just run:</p>
+<pre class="hljs"><code><div>$ mkdir docker-nodered
+$ <span class="hljs-built_in">cd</span> docker-nodered
+$ mkdir node_red_data
+$ docker run -it -p 1880:1880 -v <span class="hljs-string">"<span class="hljs-variable">$(pwd)</span>/node_red_data:/data"</span> --name nodered-mqtt nodered/node-red
+
+4 Sep 15:10:03 - [info] 
+
+Welcome to Node-RED
+===================
+
+4 Sep 15:10:03 - [info] Node-RED version: v3.0.2
+4 Sep 15:10:03 - [info] Node.js  version: v16.16.0
+4 Sep 15:10:03 - [info] Linux 5.10.104-linuxkit arm64 LE
+4 Sep 15:10:03 - [info] Loading palette nodes
+4 Sep 15:10:05 - [info] Dashboard version 3.1.7 started at /ui
+4 Sep 15:10:05 - [info] Settings file  : /data/settings.js
+4 Sep 15:10:05 - [info] Context store  : <span class="hljs-string">'default'</span> [module=memory]
+4 Sep 15:10:05 - [info] User directory : /data
+4 Sep 15:10:05 - [warn] Projects disabled : editorTheme.projects.enabled=<span class="hljs-literal">false</span>
+4 Sep 15:10:05 - [info] Flows file     : /data/flows.json
+4 Sep 15:10:05 - [info] Server now running at http://127.0.0.1:1880/
+4 Sep 15:10:05 - [warn] 
+
+---------------------------------------------------------------------
+Your flow credentials file is encrypted using a system-generated key.
+
+If the system-generated key is lost <span class="hljs-keyword">for</span> any reason, your credentials
+file will not be recoverable, you will have to delete it and re-enter
+your credentials.
+
+You should <span class="hljs-built_in">set</span> your own key using the <span class="hljs-string">'credentialSecret'</span> option <span class="hljs-keyword">in</span>
+your settings file. Node-RED will <span class="hljs-keyword">then</span> re-encrypt your credentials
+file using your chosen key the next time you deploy a change.
+---------------------------------------------------------------------
+
+4 Sep 15:10:05 - [info] Starting flows
+4 Sep 15:10:05 - [info] Started flows
+4 Sep 15:10:35 - [info] [mqtt-broker:66b4ca9236e8f3eb] Connection failed to broker: mqtt://192.168.1.103:1883
+
+
+</div></code></pre>
+<p>Docker Desktop</p>
+<p><img src="./assets/docker-desktop-node-red.png" alt="Node-RED"></p>
+<p>Docker Containter</p>
+<pre class="hljs"><code><div>$ docker ps -a
+CONTAINER ID   IMAGE                     COMMAND             CREATED      STATUS                    PORTS                    NAMES
+9b592f9233cb   nodered/node-red:latest   <span class="hljs-string">"./entrypoint.sh"</span>   2 days ago   Up 43 seconds (healthy)   0.0.0.0:1880-&gt;1880/tcp   mynodered
+
+</div></code></pre>
+<p>Login to running Node-Red</p>
+<p><img src="./assets/nodered-mqtt.png" alt="Node-RED MQTT"></p>
+<p>Manager pallet on Node-RED</p>
+<p><img src="./assets/manage-nodered-pallet.png" alt="Manage Pallet"></p>
+<p>install Dashboard ui from flows</p>
+<p><img src="./assets/nodered-dashboard.png" alt="Dashboard UI"></p>
+<h2 id="run-container-from-docker-build-image-advance">Run Container from docker build image. (Advance)</h2>
+<p>Docker Build is one of Docker Engine’s most used features. Whenever you are creating an image you are using Docker Build. Build is a key part of your <strong>software development life cycle</strong> allowing you to package and bundle your code and <strong>ship it</strong> anywhere</p>
+<h3 id="packaging-your-software-mqtt">Packaging your software (MQTT)</h3>
+<p><a href="https://www.emqx.io/docs/en/v5.0/">EMQX (https://www.emqx.io/docs/en/v5.0/)</a>
+is an Open-source MQTT broker with a high-performance real-time message processing engine, powering event streaming for IoT devices at massive scale.</p>
+<p>As the most scalable MQTT broker, EMQX can help you connect any device, at any scale. Move and process your IoT data anywhere.</p>
+<ol>
+<li>Get the source code</li>
+</ol>
+<pre class="hljs"><code><div>$ git <span class="hljs-built_in">clone</span> https://github.com/emqx/emqx.git
+
+</div></code></pre>
+<ol start="2">
+<li>Checkout to latest tag</li>
+</ol>
+<pre class="hljs"><code><div>$ <span class="hljs-built_in">cd</span> emqx
+$ git checkout $(git describe --abbrev=0 --tags)
+
+</div></code></pre>
+<p>Dockerfile is the keys. <a href="https://github.com/emqx/emqx/blob/master/deploy/docker/Dockerfile">Dockerfile (https://github.com/emqx/emqx/blob/master/deploy/docker/Dockerfile)</a></p>
+<p>Dockerfile:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">ARG</span> BUILD_FROM=ghcr.io/emqx/emqx-builder/<span class="hljs-number">5.0</span>-<span class="hljs-number">17</span>:<span class="hljs-number">1.13</span>.<span class="hljs-number">4</span>-<span class="hljs-number">24.2</span>.<span class="hljs-number">1</span>-<span class="hljs-number">1</span>-debian11
+<span class="hljs-keyword">ARG</span> RUN_FROM=debian:<span class="hljs-number">11</span>-slim
+<span class="hljs-keyword">FROM</span> ${BUILD_FROM} AS builder
+
+<span class="hljs-keyword">COPY</span><span class="bash"> . /emqx</span>
+
+<span class="hljs-keyword">ARG</span> EMQX_NAME=emqx
+<span class="hljs-keyword">ENV</span> EMQX_RELUP=false
+
+<span class="hljs-keyword">RUN</span><span class="bash"> <span class="hljs-built_in">export</span> PROFILE=<span class="hljs-variable">${EMQX_NAME%%-elixir}</span> \
+    &amp;&amp; <span class="hljs-built_in">export</span> EMQX_NAME1=<span class="hljs-variable">$EMQX_NAME</span> \
+    &amp;&amp; <span class="hljs-built_in">export</span> EMQX_NAME=<span class="hljs-variable">$PROFILE</span> \
+    &amp;&amp; <span class="hljs-built_in">export</span> EMQX_LIB_PATH=<span class="hljs-string">"_build/<span class="hljs-variable">$EMQX_NAME</span>/lib"</span> \
+    &amp;&amp; <span class="hljs-built_in">export</span> EMQX_REL_PATH=<span class="hljs-string">"/emqx/_build/<span class="hljs-variable">$EMQX_NAME</span>/rel/emqx"</span> \
+    &amp;&amp; <span class="hljs-built_in">export</span> EMQX_REL_FORM=<span class="hljs-string">'docker'</span> \
+    &amp;&amp; <span class="hljs-built_in">cd</span> /emqx \
+    &amp;&amp; rm -rf <span class="hljs-variable">$EMQX_LIB_PATH</span> \
+    &amp;&amp; make <span class="hljs-variable">$EMQX_NAME1</span> \
+    &amp;&amp; mkdir -p /emqx-rel \
+    &amp;&amp; mv <span class="hljs-variable">$EMQX_REL_PATH</span> /emqx-rel</span>
+
+<span class="hljs-keyword">FROM</span> $RUN_FROM
+
+<span class="hljs-comment"># Elixir complains if runs without UTF-8</span>
+<span class="hljs-keyword">ENV</span> LC_ALL=C.UTF-<span class="hljs-number">8</span>
+<span class="hljs-keyword">ENV</span> LANG=C.UTF-<span class="hljs-number">8</span>
+
+<span class="hljs-keyword">COPY</span><span class="bash"> deploy/docker/docker-entrypoint.sh /usr/bin/</span>
+<span class="hljs-keyword">COPY</span><span class="bash"> --from=builder /emqx-rel/emqx /opt/emqx</span>
+
+<span class="hljs-keyword">RUN</span><span class="bash"> ln -s /opt/emqx/bin/* /usr/<span class="hljs-built_in">local</span>/bin/</span>
+
+<span class="hljs-keyword">RUN</span><span class="bash"> apt-get update; \
+    apt-get install -y --no-install-recommends ca-certificates procps; \
+    rm -rf /var/lib/apt/lists/*</span>
+
+<span class="hljs-keyword">WORKDIR</span><span class="bash"> /opt/emqx</span>
+
+<span class="hljs-keyword">RUN</span><span class="bash"> groupadd -r -g 1000 emqx; \
+    useradd -r -m -u 1000 -g emqx emqx; \
+    chgrp -Rf emqx /opt/emqx; \
+    chmod -Rf g+w /opt/emqx; \
+    chown -Rf emqx /opt/emqx</span>
+
+<span class="hljs-keyword">USER</span> emqx
+
+<span class="hljs-keyword">VOLUME</span><span class="bash"> [<span class="hljs-string">"/opt/emqx/log"</span>, <span class="hljs-string">"/opt/emqx/data"</span>]</span>
+
+<span class="hljs-comment"># emqx will occupy these port:</span>
+<span class="hljs-comment"># - 1883 port for MQTT</span>
+<span class="hljs-comment"># - 8081 for mgmt API</span>
+<span class="hljs-comment"># - 8083 for WebSocket/HTTP</span>
+<span class="hljs-comment"># - 8084 for WSS/HTTPS</span>
+<span class="hljs-comment"># - 8883 port for MQTT(SSL)</span>
+<span class="hljs-comment"># - 11883 port for internal MQTT/TCP</span>
+<span class="hljs-comment"># - 18083 for dashboard</span>
+<span class="hljs-comment"># - 4370 default Erlang distribution port</span>
+<span class="hljs-comment"># - 5369 for backplain gen_rpc</span>
+<span class="hljs-keyword">EXPOSE</span> <span class="hljs-number">1883</span> <span class="hljs-number">8081</span> <span class="hljs-number">8083</span> <span class="hljs-number">8084</span> <span class="hljs-number">8883</span> <span class="hljs-number">11883</span> <span class="hljs-number">18083</span> <span class="hljs-number">4370</span> <span class="hljs-number">5369</span>
+
+<span class="hljs-keyword">ENTRYPOINT</span><span class="bash"> [<span class="hljs-string">"/usr/bin/docker-entrypoint.sh"</span>]</span>
+
+<span class="hljs-keyword">CMD</span><span class="bash"> [<span class="hljs-string">"/opt/emqx/bin/emqx"</span>, <span class="hljs-string">"foreground"</span>]</span>
+</div></code></pre>
+<ol start="3">
+<li>Compile and run</li>
+</ol>
+<p>Build image from source with <strong>Dockerfile</strong></p>
+<pre class="hljs"><code><div>$ <span class="hljs-built_in">cd</span> emqx
+$ docker build -f deploy/docker/Dockerfile -t hanattaw/emqx . <span class="hljs-comment"># change to your [yourname]/emqx</span>
+
+[+] Building 728.8s (16/16) FINISHED         
+ =&gt; [internal] load build definition from Dockerfile              0.0s
+ =&gt; =&gt; transferring dockerfile: 37B                               0.0s
+ =&gt; [internal] load .dockerignore                                 0.0s
+
+...
+ 
+ =&gt; =&gt; naming to docker.io/hanattaw/emqx                          0.0s
+
+Use <span class="hljs-string">'docker scan'</span> to run Snyk tests against images to find vulnerabilities and learn how to fix them
+</div></code></pre>
+<p>Check build images exist</p>
+<pre class="hljs"><code><div>$ docker images
+REPOSITORY       TAG      IMAGE ID       CREATED        SIZE
+hanattaw/emqx    latest   168a41fd5ed1   2 hours ago    494MB
+</div></code></pre>
+<h2 id="run-container-from-build-image">Run Container from build image</h2>
+<p><strong>Run Docker</strong></p>
+<pre class="hljs"><code><div>$ mkdir docker-emqx <span class="hljs-comment"># create folder</span>
+$ <span class="hljs-built_in">cd</span> docker-emqx
+$ mkdir emqx_log emqx_data <span class="hljs-comment"># create log and data directories</span>
+$ docker run -d --name emqx517 -p 1883:1883 -p 8083:8083 -p 8084:8084 -p 8883:8883 -p 18083:18083 -v <span class="hljs-string">"<span class="hljs-variable">$(pwd)</span>/emqx_log:/opt/emqx/log"</span> -v <span class="hljs-string">"<span class="hljs-variable">$(pwd)</span>/emqx_data:/opt/emqx/data"</span> hanattaw/emqx:latest <span class="hljs-comment"># from build image tag</span>
+
+bd823a28818343b59f83ea904eaf3df3991780724e61905f546520a57c114408
+</div></code></pre>
+<p><strong>Process of running containter</strong></p>
+<pre class="hljs"><code><div>$ docker ps -a
+CONTAINER ID   IMAGE                  COMMAND                  CREATED       STATUS         PORTS                                                                                                                                                                                                                                         NAMES
+f1080c969719   hanattaw/emqx:latest   <span class="hljs-string">"/usr/bin/docker-ent…"</span>   4 hours ago   Up 9 seconds   4370/tcp, 5369/tcp, 0.0.0.0:1883-&gt;1883/tcp, :::1883-&gt;1883/tcp, 0.0.0.0:8083-8084-&gt;8083-8084/tcp, :::8083-8084-&gt;8083-8084/tcp, 8081/tcp, 0.0.0.0:8883-&gt;8883/tcp, :::8883-&gt;8883/tcp, 0.0.0.0:18083-&gt;18083/tcp, :::18083-&gt;18083/tcp, 11883/tcp emqx517
+
+</div></code></pre>
+<p>From your computer, open a browser and navigate to <a href="http://localhost:18083">http://localhost:18083</a> or, if you’re using Play with Docker, click on Open Port.</p>
+<p><img src="./assets/run-container.png" alt="Running Container"></p>
+<p><strong>stop container</strong></p>
+<pre class="hljs"><code><div>$ docker stop emqx517
+emqx517
+
+</div></code></pre>
+<p><strong>start container</strong></p>
+<pre class="hljs"><code><div>$ docker start emqx517
+emqx517
+
+</div></code></pre>
+<p><strong>rm stopped container</strong></p>
+<pre class="hljs"><code><div>$ docker rm emqx517
+emqx517
+</div></code></pre>
+<h2 id="mqttx-desktop-client-tool">MQTTX desktop client tool</h2>
+<p>MQTTX is an elegant cross-platform MQTT 5.0 open source desktop client tool that supports running on macOS, Linux, and Windows.</p>
+<p>MQTTX has many features. It provides a concise graphical interface with intuitive operational functionality. It supports MQTT/MQTT over WebSocket access with one-way/two-way SSL authentication, and supports Payload format conversion, simulation of test data with a custom scripts, automatic subscription of $SYS topic, viewing Traffic statistics, and more.</p>
+<p>For download and use, please refer to the <a href="https://mqttx.app/">MQTT X website(https://mqttx.app/)</a></p>
+<p><img src="https://www.emqx.io/docs/docs-assets/img/emqx-mqttx.2592e901.jpeg" alt="MQTTX"></p>
+<h3 id="client-example-code">Client example code</h3>
+<p>For MQTT client library example code, we try to cover as many mainstream programming languages and platforms as possible, see M<a href="https://github.com/emqx/MQTT-Client-Examples">QTT-Client-Examples</a> .</p>
+<p><img src="./assets/mqtt-example.png" alt="MQTT Example"></p>
+<h2 id="top-gun-rally-cdti-2022-day-1-excercise">Top Gun Rally CDTI 2022 Day 1 Excercise</h2>
+<p><img src="./assets/CDTI Topgun2022.png" alt="Top Gun CDTI 2022"></p>
+<ol>
+<li>Install docker, docker desktop.</li>
+<li><strong>[Basic]</strong> Run Node-Red docker.</li>
+<li><strong>[Advance]</strong> Build EMQX docker image and run EMQX from image.
+<ul>
+<li><strong>[Advance]</strong> Setup MQTT authentication.</li>
+<li><strong>[Advance]</strong> Setup Topic authorization.</li>
+</ul>
+</li>
+<li><strong>[Basic]</strong> Publish and Subscibe to MQTT Broker.
+<ul>
+<li>
+<p>For who are not complete building EMQX Broker from image. You can run EMQX docker by pulling from <a href="https://hub.docker.com/_/emqx">EMQX docker official image (https://hub.docker.com/_/emqx)</a>.</p>
+<pre class="hljs"><code><div>$ docker run -d --name emqx -p 1883:1883 -p 8083:8083 -p 8084:8084 -p 8883:8883 -p 18083:18083 emqx/emqx:latest
+
+</div></code></pre>
+</li>
+<li>
+<p>Or connect to Top Gun Rally <a href="mqtt://172.21.16.10:1883">CDTI 2022 MQTT (mqtt://172.21.16.10)</a> with</p>
+<ul>
+<li>username: team[x]</li>
+<li>password: team[x]</li>
+</ul>
+<p><img src="./assets/CDTI Topgun2022-broker.png" alt="CDTI MQTT Broker"></p>
+</li>
+</ul>
+</li>
+</ol>
+
+</body>
+</html>
